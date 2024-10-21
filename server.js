@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import Product from './models/products.js';
+import { createProduct, getProducts, updateProduct, deleteProduct } from './controllers/ProductControllers.js';
 import mongoose from 'mongoose';
 
 dotenv.config();
@@ -23,67 +23,13 @@ app.get('/', (req, res) => {
   res.send('Server is running');
 });
 
-app.post('/products', async (req, res) => {
-    const { name, price, image } = req.body;
-    const product = new Product({
-        name,
-        price,
-        image
-    });
-    try {
-        const createdProduct = await product.save();
-        res.status(201).json({ success: true, data: createdProduct});
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-});
+app.post('/products', createProduct);
 
-app.get('/products', async (req, res) => {
-    console.log('Fetching products...');
-    try{
-        const products = await Product.find({});
-        res.json({ success: true, data: products });
-        console.log('Products fetched successfully');
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-});
+app.get('/products', getProducts);
 
-app.put('/products/:id', async (req, res) => {
-    const {id} = req.params;
-    const product = req.body;
+app.put('/products/:id', updateProduct);
 
-    if(!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).json({ success: false, message: "Product not found" });
-    }
-
-    try {
-        const updatedProduct = await Product.findByIdAndUpdate(id, product, { new: true });
-        res.status(200).json({ success: true, data: updatedProduct });
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Server Error" });
-    }
-});
-
-app.delete('/products/:id', async (req, res) => {
-
-    const {id} = req.params;
-
-    if(!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).json({ success: false, message: "Product not found" });
-    }
-    
-    //console.log("id: ", id);
-
-    try {
-        await Product.findByIdAndDelete(id);
-        res.status(200).json({ success: true, message: "Product deleted"})
-    } catch (error) {
-        console.error("Error in Delete Product: ", error.message);
-        //internal server error
-        res.status(500).json({ success: false, message: "Server Error" });
-    }
-});
+app.delete('/products/:id', deleteProduct);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
