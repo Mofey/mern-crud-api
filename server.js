@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { createProduct, getProducts, updateProduct, deleteProduct } from './controllers/ProductControllers.js';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -16,6 +17,15 @@ mongoose.connect(process.env.MONGODB_URI/*,
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(cors({
+  origin: [
+      'https://mern-crud-vercel-eight.vercel.app',
+      'http://localhost:3000'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 
 app.use(express.json());
 
