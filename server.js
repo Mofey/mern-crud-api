@@ -20,8 +20,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors({
   origin: [
-      'https://mern-crud-vercel-eight.vercel.app',
-      'http://localhost:3000'
+      'http://localhost:5173'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
@@ -29,10 +28,7 @@ app.use(cors({
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Server is running');
-});
-
+// routes
 app.post('/products', createProduct);
 
 app.get('/products', getProducts);
@@ -43,6 +39,10 @@ app.delete('/products/:id', deleteProduct);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+  res.send('Server is running');
 });
 
 export default app;
