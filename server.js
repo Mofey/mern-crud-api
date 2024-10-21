@@ -18,13 +18,23 @@ mongoose.connect(process.env.MONGODB_URI/*,
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// List of allowed origins
+const allowedOrigins = [
+  'http://localhost:3000', // Development
+  'https://mern-crud-frontend-orpin.vercel.app' // Production frontend
+];
+
+// Configure CORS middleware
 app.use(cors({
-  origin: [
-      'http://localhost:5173',
-      'https://mern-crud-frontend-orpin.vercel.app'
-  ],
+  origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+      } else {
+          callback(new Error('Not allowed by CORS'));
+      }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+  credentials: true // If you need to send cookies
 }));
 
 app.use(express.json());
