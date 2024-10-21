@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: [
       'http://localhost:5173',
-      'https://mern-crud-frontend-orpin.vercel.app/'
+      'https://mern-crud-frontend-orpin.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
