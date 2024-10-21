@@ -18,11 +18,6 @@ mongoose.connect(process.env.MONGODB_URI/*,
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// List of allowed origins
-const allowedOrigins = [
-  '*'
-];
-
 app.use('*', cors())
 
 // Configure CORS middleware
