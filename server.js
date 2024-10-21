@@ -20,19 +20,12 @@ const PORT = process.env.PORT || 5000;
 
 // List of allowed origins
 const allowedOrigins = [
-  'http://localhost:3000', // Development
-  'https://mern-crud-frontend-orpin.vercel.app' // Production frontend
+  '*'
 ];
 
 // Configure CORS middleware
 app.use(cors({
-  origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-      } else {
-          callback(new Error('Not allowed by CORS'));
-      }
-  },
+  origin: ['*'], // All origins
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true // If you need to send cookies
 }));
