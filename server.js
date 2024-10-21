@@ -23,10 +23,12 @@ const allowedOrigins = [
   '*'
 ];
 
+app.use('*', cors())
+
 // Configure CORS middleware
 app.use(cors({
   origin: ['*'], // All origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // All http methods
   credentials: true // If you need to send cookies
 }));
 
